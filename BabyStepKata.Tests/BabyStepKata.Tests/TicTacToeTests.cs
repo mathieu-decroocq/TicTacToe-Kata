@@ -1,8 +1,8 @@
 using System;
-using System.Runtime.Serialization;
 using Xunit;
+using TicTacToeKata.Lib;
 
-namespace BabyStepKata.Tests
+namespace TicTacToeKata.Tests
 {
     public class TicTacToeTests
     {
@@ -40,39 +40,6 @@ namespace BabyStepKata.Tests
             game.Play("0", 0, 1);
 
             Assert.Throws<InvalidOperationException>(() => game.Play("X", 0, 0));
-        }
-    }
-
-
-
-    internal class Game
-    {
-        private string previousMarker;
-        private string[,] board = new string[3,3];
-
-        public Game()
-        {
-        }
-
-        public void Play(string marker, int x, int y)
-        {
-            if (marker == previousMarker)
-            {
-                throw new InvalidOperationException("Same_Player_Play_Twice");
-            }
-
-            if (board[x, y] != null)
-            {
-                throw new InvalidOperationException("Marker_Already_Placed");
-            }
-
-            previousMarker = marker;
-            board[x, y] = marker;
-        }
-
-        public string GetWinner()
-        {
-            return "X";
         }
     }
 }
