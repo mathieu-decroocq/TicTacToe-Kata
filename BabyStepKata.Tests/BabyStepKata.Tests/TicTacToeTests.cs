@@ -24,6 +24,22 @@ namespace TicTacToeKata.Tests
         }
 
         [Fact]
+        public void Game_P1Wins_AllMarkersLine()
+        {
+            // ..0
+            // 00.
+            // XXX
+        }
+
+        [Fact]
+        public void Game_P1Wins_AllMarkersColumn()
+        {
+            // 0..
+            // XXX
+            // .0.
+        }
+
+        [Fact]
         public void ThrowException_If_Same_Player_Play_Twice()
         {
             Game game = new Game();
