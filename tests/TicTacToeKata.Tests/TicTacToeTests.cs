@@ -14,8 +14,8 @@ namespace TicTacToeKata.Tests
         {
             Players = new List<Player>
             {
-                new Player() {Id = 1, Name = "P1", Marker = "X"},
-                new Player() {Id = 2, Name = "P2", Marker = "0"}
+                new Player {Id = 1, Name = "P1", Marker = "X"},
+                new Player {Id = 2, Name = "P2", Marker = "O"}
             };
         }
 
@@ -74,6 +74,16 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == PlayerOne);
             }
 
+            [Fact(DisplayName = "P2 wins with all markers in second line")]
+            public void P2Wins_AllMarkersInSecondLine()
+            {
+                Board = new[,] { { "X", "", "X" }, { "O", "O", "O" }, { "", "", "X" } };
+
+                Game game = new Game(Board, Players[0], Players[1]);
+
+                Assert.True(game.GetWinner() == PlayerTwo);
+            }
+
             [Fact(DisplayName = "P1 wins with all markers in third line")]
             public void P1Wins_AllMarkersInThirdLine()
             {
@@ -94,7 +104,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == PlayerOne);
             }
 
-            [Fact(DisplayName = "P2 win with all markers in first column", Skip = "Plus tard")]
+            [Fact(DisplayName = "P2 win with all markers in first column")]
             public void P2Wins_AllMarkersInFirstColumn()
             {
                 Board = new[,] { { "O", "X", "X" }, { "O", "O", "" }, { "O", "", "X" } };
@@ -104,7 +114,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == PlayerTwo);
             }
 
-            [Fact(DisplayName = "P2 win with all markers in second column", Skip = "Plus tard")]
+            [Fact(DisplayName = "P2 win with all markers in second column")]
             public void P2Wins_AllMarkersInSecondColumn()
             {
                 Board = new[,] { { "X", "O", "X" }, { "O", "O", "" }, { "", "O", "X" } };
@@ -114,7 +124,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == PlayerTwo);
             }
 
-            [Fact(DisplayName = "P1 wins with all markers in third column", Skip = "Plus tard")]
+            [Fact(DisplayName = "P1 wins with all markers in third column")]
             public void P1Wins_AllMarkersInThirdColumn()
             {
                 Board =  new[,] { { "X", "O", "X" }, { "O", "", "X" }, { "", "O", "X" } };

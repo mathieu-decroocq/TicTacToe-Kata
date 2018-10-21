@@ -54,49 +54,54 @@ namespace TicTacToeKata.Lib
 
         public Player GetWinner()
         {
-            var winningMarker = GetIdenticalMarkerForAllLine();
+            var winningMarker = GetIdenticalMarkerForAllLines();
+
+            if (winningMarker == null)
+            {
+                winningMarker = GetIdenticalMarkerForAllColumns();
+            }
 
             return GetPlayerByMarker(winningMarker);
-
-            //string winningMarker = MarkerSameInRow();
-            //if (winningMarker != null)
-            //{
-            //    return GetPlayerByMarker(winningMarker);
-            //}
-
-            //// test column victory
-            //bool isZero = board.All(row => row
-            //                   .Select((s, i) => new { Pos = i, Str = s })
-            //                   .Any(i => i.Str == playerTwo.Marker));
-            //if (isZero)
-            //{
-            //    return GetPlayerByMarker(playerTwo.Marker);
-            //}
-
-            //return null;
         }
 
-        private string GetIdenticalMarkerForAllLine()
+        private string GetIdenticalMarkerForAllLines()
         {
-            string winningMarker = null;
+            string marker = null;
             for (int lineIndex = 0; lineIndex < board.GetLength(0); lineIndex++)
             {
                 var row = board.GetRow(lineIndex);
-                winningMarker = CheckIfSameMarkerAndReturnIts(row);
+                marker = CheckIfSameMarkerAndReturnIts(row);
 
-                if (winningMarker != null)
+                if (marker != null)
                 {
                     break;
                 }
             }
 
-            return winningMarker;
+            return marker;
+        }
 
-            string CheckIfSameMarkerAndReturnIts(string[] row)
+        private string GetIdenticalMarkerForAllColumns()
+        {
+            string marker = null;
+            for (int colIndex = 0; colIndex < board.GetLength(1); colIndex++)
             {
-                string first = row.First();
-                return row.All(m => m == first) ? first : null;
+                var col = board.GetColumn(colIndex);
+
+                marker = CheckIfSameMarkerAndReturnIts(col);
+                if (marker != null)
+                {
+                    break;
+                }
             }
+
+            return marker;
+        }
+
+        private string CheckIfSameMarkerAndReturnIts(string[] array)
+        {
+            string first = array.First();
+            return array.All(m => m == first) ? first : null;
         }
 
         private Player GetPlayerByMarker(string winnerMarker)
