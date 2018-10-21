@@ -63,30 +63,54 @@ namespace TicTacToeKata.Lib
 
             if (winningMarker == null)
             {
-                //diagonal case
-                //case diagonal left to right
-                List<string> caseOne = new List<string>();
-                for (int i = 0; i < board.GetLength(1); i++)
-                {
-                    caseOne.Add(board[i,i]);
-                }
 
-                winningMarker = CheckIfSameMarkerAndReturnIts(caseOne.ToArray());
-
-                if (winningMarker == null)
-                {
-                    //case diagonal right to left
-                    List<string> caseTwo = new List<string>();
-                    for (int i = 0; i < board.GetLength(1); i++)
-                    {
-                        caseTwo.Add(board[i, board.GetLength(0) - i - 1]);
-                    }
-
-                    winningMarker = CheckIfSameMarkerAndReturnIts(caseTwo.ToArray());
-                }
+                winningMarker = GetIdenticalMarkerForDiagonal();
             }
 
             return GetPlayerByMarker(winningMarker);
+        }
+
+        private string GetIdenticalMarkerForDiagonal()
+        {
+            string[] markersLeftToRight = ExtractMarkerArrayByIterateBoardFromLeftToRight();
+
+            var marker = CheckIfSameMarkerAndReturnIts(markersLeftToRight);
+
+            if (marker == null)
+            {
+                var markerRightToLeft = ExtractMarkerArrayByIterateBoardFromRightToLeft();
+
+                marker = CheckIfSameMarkerAndReturnIts(markerRightToLeft);
+            }
+
+            return marker;
+
+            #region LocalMethods
+
+            string[] ExtractMarkerArrayByIterateBoardFromLeftToRight()
+            {
+                List<string> markers = new List<string>();
+                for (int i = 0; i < board.GetLength(1); i++)
+                {
+                    markers.Add(board[i, i]);
+                }
+
+                return markers.ToArray();
+            }
+
+            string[] ExtractMarkerArrayByIterateBoardFromRightToLeft()
+            {
+                List<string> markers = new List<string>();
+                for (int i = 0; i < board.GetLength(1); i++)
+                {
+                    int previousColumnIndex = board.GetLength(0) - i - 1;
+                    markers.Add(board[i, previousColumnIndex]);
+                }
+
+                return markers.ToArray();
+            }
+
+            #endregion
         }
 
         private string GetIdenticalMarkerForAllLines()
