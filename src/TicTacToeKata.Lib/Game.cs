@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TicTacToeKata.Lib.Extension;
 
 namespace TicTacToeKata.Lib
 {
@@ -24,8 +25,8 @@ namespace TicTacToeKata.Lib
 
         private void InitPlayers()
         {
-            playerOne = new Player() { Id = 1, Name = "P1", Marker = "X" };
-            playerTwo = new Player() { Id = 2, Name = "P2", Marker = "O" };
+            playerOne = new Player { Id = 1, Name = "P1", Marker = "X" };
+            playerTwo = new Player { Id = 2, Name = "P2", Marker = "O" };
         }
 
         public Game(string[,] board, Player p1, Player p2)
@@ -53,20 +54,7 @@ namespace TicTacToeKata.Lib
 
         public Player GetWinner()
         {
-            string winningMarker = string.Empty;
-
-            for (int i = 0; i < board.GetLength(0); i++)
-            {
-                var row = Enumerable.Range(0, board.GetLength(1)).Select(x => board[i, x]).ToArray();
-                if(row.All(m => m == playerOne.Marker))
-                {
-                    winningMarker = playerOne.Marker;
-                }
-                else if (row.All(m => m == playerTwo.Marker))
-                {
-                    winningMarker = playerTwo.Marker;
-                }
-            }
+            var winningMarker = GetIdenticalMarkerForAllLine();
 
             return GetPlayerByMarker(winningMarker);
 
@@ -85,13 +73,31 @@ namespace TicTacToeKata.Lib
             //    return GetPlayerByMarker(playerTwo.Marker);
             //}
 
-            return null;
+            //return null;
         }
 
-        //private string MarkerSameInRow()
-        //{
-        //    return board.FirstOrDefault(row => row.All(m => m == playerOne.Marker) || row.All(m => m == playerTwo.Marker))?.FirstOrDefault();
-        //}
+        private string GetIdenticalMarkerForAllLine()
+        {
+            string winningMarker = null;
+            for (int lineIndex = 0; lineIndex < board.GetLength(0); lineIndex++)
+            {
+                var row = board.GetRow(lineIndex);
+                winningMarker = CheckIfSameMarkerAndReturnIts(row);
+
+                if (winningMarker != null)
+                {
+                    break;
+                }
+            }
+
+            return winningMarker;
+
+            string CheckIfSameMarkerAndReturnIts(string[] row)
+            {
+                string first = row.First();
+                return row.All(m => m == first) ? first : null;
+            }
+        }
 
         private Player GetPlayerByMarker(string winnerMarker)
         {
