@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using TicTacToeKata.Lib;
 
@@ -7,26 +8,50 @@ namespace TicTacToeKata.Tests
 {
     public class TicTacToeTests
     {
-        public class GameTests
+        public List<Player> Players;
+        public List<string[]> Board;
+        internal void Initialize()
         {
+            Players = new List<Player>
+            {
+                new Player() {Id = 1, Name = "P1", Marker = "X"},
+                new Player() {Id = 2, Name = "P2", Marker = "0"}
+            };
+        }
+
+        public Player GetPlayerOne()
+        {
+            return Players.Single(p => p.Id == 1);
+        }
+
+        public Player GetPlayerTwo()
+        {
+            return Players.Single(p => p.Id == 2);
+        }
+
+        public class GameTests : TicTacToeTests
+        {
+            public GameTests()
+            {
+                Initialize();
+            }
 
             [Fact(DisplayName = "P1 wins with all markers in three line")]
             public void P1Wins_AllMarkersLine()
             {
-                var board = new List<string[]>
+                Board = new List<string[]>
                 {
                     new [] {"", "", "0"},
                     new [] {"0", "0", ""},
                     new [] {"X", "X", "X"}
                 };
 
-                Game game = new Game(board);
+                Game game = new Game(Board, Players[0], Players[1]);
 
-                // P1 Wins!
-                Assert.True(game.GetWinner() == "X");
+                Assert.True(game.GetWinner() == GetPlayerOne());
             }
 
-            [Fact(DisplayName = "P1 wins with all markers in diagonale")]
+            [Fact(DisplayName = "P1 win with all markers in diagonale", Skip = "Plus tard")]
             public void P1Wins_AllMarkersDiagonale()
             {
                 var board = new List<string[]>
@@ -36,13 +61,12 @@ namespace TicTacToeKata.Tests
                     new [] {"", "", "X"}
                 };
 
-                Game game = new Game(board);
+                Game game = new Game(board, Players[0], Players[1]);
   
-                // P1 Wins!
-                Assert.True(game.GetWinner() == "X");
+                Assert.True(game.GetWinner() == GetPlayerOne());
             }
 
-            [Fact(DisplayName = "P2 wins with all markers in first column")]
+            [Fact(DisplayName = "P2 win with all markers in first column")]
             public void P2Wins_AllMarkersInFirstColumn()
             {
                 var board = new List<string[]>
@@ -52,10 +76,9 @@ namespace TicTacToeKata.Tests
                     new [] {"0", "", "X"}
                 };
 
-                Game game = new Game(board);
+                Game game = new Game(board, Players[0], Players[1]);
 
-                // P2 Wins!
-                Assert.True(game.GetWinner() == "0");
+                Assert.True(game.GetWinner() == GetPlayerTwo());
             }
 
             [Fact(DisplayName = "P2 win with all markers in second column")]
@@ -68,10 +91,9 @@ namespace TicTacToeKata.Tests
                     new [] {"", "0", "X"}
                 };
 
-                Game game = new Game(board);
+                Game game = new Game(board, Players[0], Players[1]);
 
-                // P2 Wins!
-                Assert.True(game.GetWinner() == "0");
+                Assert.True(game.GetWinner() == GetPlayerTwo());
             }
 
             [Fact(DisplayName = "P1 wins with all markers in third column", Skip = "Trop tot")]
@@ -84,30 +106,37 @@ namespace TicTacToeKata.Tests
                     new [] {"", "0", "X"}
                 };
 
-                Game game = new Game(board);
+                Game game = new Game(board, Players[0], Players[1]);
 
-                // P1 Wins!
-                Assert.True(game.GetWinner() == "X");
+                Assert.True(game.GetWinner() == GetPlayerOne());
             }
         }
 
-        [Fact(DisplayName = "Thrown exception if same player play twice")]
-        public void ThrowException_If_Same_Player_Play_Twice()
+        public class AcceptanceTests : TicTacToeTests
         {
-            Game game = new Game();
-            game.Play("X", 0, 0);
+            public AcceptanceTests()
+            {
+                Initialize();
+            }
 
-            Assert.Throws<InvalidOperationException>(() => game.Play("X", 1, 0));
-        }
+            [Fact(DisplayName = "Thrown exception if same player play twice")]
+            public void ThrowException_If_Same_Player_Play_Twice()
+            {
+                Game game = new Game();
+                game.Play(GetPlayerOne(), 0, 0);
 
-        [Fact(DisplayName = "Throw exception if marker already placed")]
-        public void ThrowException_If_Marker_Already_Placed()
-        {
-            Game game = new Game();
-            game.Play("X", 0, 0);
-            game.Play("0", 0, 1);
+                Assert.Throws<InvalidOperationException>(() => game.Play(GetPlayerOne(), 1, 0));
+            }
 
-            Assert.Throws<InvalidOperationException>(() => game.Play("X", 0, 0));
+            [Fact(DisplayName = "Throw exception if marker already placed")]
+            public void ThrowException_If_Marker_Already_Placed()
+            {
+                Game game = new Game();
+                game.Play(GetPlayerOne(), 0, 0);
+                game.Play(GetPlayerTwo(), 0, 1);
+
+                Assert.Throws<InvalidOperationException>(() => game.Play(GetPlayerOne(), 0, 0));
+            }
         }
     }
 }
