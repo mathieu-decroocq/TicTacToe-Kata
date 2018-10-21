@@ -43,7 +43,7 @@ namespace TicTacToeKata.Tests
             }
 
             [Fact]
-            public void P2Wins_AllMarkersColumn()
+            public void P2Wins_AllMarkersInFirstColumn()
             {
                 var board = new List<string[]>
                 {
@@ -56,6 +56,38 @@ namespace TicTacToeKata.Tests
 
                 // P2 Wins!
                 Assert.True(game.GetWinner() == "0");
+            }
+
+            [Fact(DisplayName = "P2 win with all markers in second column")]
+            public void P2Wins_AllMarkersInSecondColumn()
+            {
+                var board = new List<string[]>
+                {
+                    new [] {"X", "0", "X"},
+                    new [] {"0", "0", ""},
+                    new [] {"", "0", "X"}
+                };
+
+                Game game = new Game(board);
+
+                // P2 Wins!
+                Assert.True(game.GetWinner() == "0");
+            }
+
+            [Fact(Skip = "Trop tot")]
+            public void P1Wins_AllMarkersInThirdColumn()
+            {
+                var board = new List<string[]>
+                {
+                    new [] {"X", "0", "X"},
+                    new [] {"0", "", "X"},
+                    new [] {"", "0", "X"}
+                };
+
+                Game game = new Game(board);
+
+                // P1 Wins!
+                Assert.True(game.GetWinner() == "X");
             }
         }
 

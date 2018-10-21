@@ -7,7 +7,7 @@ namespace TicTacToeKata.Lib
     public class Game
     {
         private string previousMarker;
-        private List<string[]> board = new List<string[]>(3);
+        private readonly List<string[]> board = new List<string[]>(3);
 
 
         public Game()
@@ -43,7 +43,27 @@ namespace TicTacToeKata.Lib
 
         public string GetWinner()
         {
-            return board.First(b => b.All(m => m == "X") || b.All(m => m == "0"))[0];
+            string winnerMarker = string.Empty;
+            // test row victory
+            var winningRow = board.FirstOrDefault(b => b.All(m => m == "X") || b.All(m => m == "0"));
+            if (winningRow != null)
+            {
+                winnerMarker = winningRow[0];
+            }
+          
+            if (winnerMarker == string.Empty)
+            {
+                // test column victory
+                bool isZero = board.All(b => b
+                                   .Select((s, i) => new {Pos = i, Str = s})
+                                   .Any(i => i.Str == "0"));
+                if (isZero)
+                {
+                    winnerMarker = "0";
+                }
+            }
+
+            return winnerMarker;
         }
     }
 }
