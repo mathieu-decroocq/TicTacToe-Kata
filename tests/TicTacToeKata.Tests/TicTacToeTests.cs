@@ -36,6 +36,22 @@ namespace TicTacToeKata.Tests
                 Initialize();
             }
 
+            [Fact]
+            public void NoWinner()
+            {
+                Game game = new Game();
+
+                Assert.Null(game.GetWinner()); 
+            }
+        }
+
+        public class AcceptanceTests : TicTacToeTests
+        {
+            public AcceptanceTests()
+            {
+                Initialize();
+            }
+
             [Fact(DisplayName = "P1 wins with all markers in three line")]
             public void P1Wins_AllMarkersLine()
             {
@@ -62,7 +78,7 @@ namespace TicTacToeKata.Tests
                 };
 
                 Game game = new Game(board, Players[0], Players[1]);
-  
+
                 Assert.True(game.GetWinner() == GetPlayerOne());
             }
 
@@ -109,14 +125,6 @@ namespace TicTacToeKata.Tests
                 Game game = new Game(board, Players[0], Players[1]);
 
                 Assert.True(game.GetWinner() == GetPlayerOne());
-            }
-        }
-
-        public class AcceptanceTests : TicTacToeTests
-        {
-            public AcceptanceTests()
-            {
-                Initialize();
             }
 
             [Fact(DisplayName = "Thrown exception if same player play twice")]

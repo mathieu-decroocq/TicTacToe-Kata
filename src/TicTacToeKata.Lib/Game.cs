@@ -58,28 +58,27 @@ namespace TicTacToeKata.Lib
 
         public Player GetWinner()
         {
-            string winnerMarker = string.Empty;
-            // test row victory
-            var winningRow = board.FirstOrDefault(b => b.All(m => m == playerOne.Marker) || b.All(m => m == playerTwo.Marker));
-            if (winningRow != null)
+            string winningMarker = MarkerSameInRow();
+            if (winningMarker != null)
             {
-                winnerMarker = winningRow[0];
+                return GetPlayerByMarker(winningMarker);
             }
 
-            if (winnerMarker == string.Empty)
+            // test column victory
+            bool isZero = board.All(row => row
+                               .Select((s, i) => new { Pos = i, Str = s })
+                               .Any(i => i.Str == playerTwo.Marker));
+            if (isZero)
             {
-                // test column victory
-                bool isZero = board.All(b => b
-                                   .Select((s, i) => new { Pos = i, Str = s })
-                                   .Any(i => i.Str == playerTwo.Marker));
-                if (isZero)
-                {
-                    winnerMarker = playerTwo.Marker;
-                }
+                return GetPlayerByMarker(playerTwo.Marker);
             }
 
+            return null;
+        }
 
-            return GetPlayerByMarker(winnerMarker);
+        private string MarkerSameInRow()
+        {
+            return board.FirstOrDefault(row => row.All(m => m == playerOne.Marker) || row.All(m => m == playerTwo.Marker))?.FirstOrDefault();
         }
 
         private Player GetPlayerByMarker(string winnerMarker)
