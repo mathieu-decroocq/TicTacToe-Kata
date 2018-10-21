@@ -11,12 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{50637C43
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToeKata.Lib", "src\TicTacToeKata.Lib\TicTacToeKata.Lib.csproj", "{25035139-4B3A-43D8-9BE8-A9B6EE72E317}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{2F23B024-33BB-444C-B18C-8D02FD1FD299}"
-	ProjectSection(SolutionItems) = preProject
-		specs\rules.txt = specs\rules.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{2F23B024-33BB-444C-B18C-8D02FD1FD299}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{D425EFA3-F681-4731-B9CD-E1EB9A8AB028}"
 	ProjectSection(SolutionItems) = preProject
 		specs\rules.txt = specs\rules.txt
 	EndProjectSection
