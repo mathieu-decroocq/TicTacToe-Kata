@@ -16,6 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{D425EFA3
 		specs\rules.txt = specs\rules.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F865B17B-76EB-4112-89EA-70F4B7E247FD}"
+	ProjectSection(SolutionItems) = preProject
+		build\azure-pipeline.yml = build\azure-pipeline.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

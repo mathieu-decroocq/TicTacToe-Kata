@@ -10,7 +10,7 @@ namespace TicTacToeKata.Tests
         public class GameTests
         {
 
-            [Fact]
+            [Fact(DisplayName = "P1 wins with all markers in three line")]
             public void P1Wins_AllMarkersLine()
             {
                 var board = new List<string[]>
@@ -26,7 +26,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == "X");
             }
 
-            [Fact]
+            [Fact(DisplayName = "P1 wins with all markers in diagonale")]
             public void P1Wins_AllMarkersDiagonale()
             {
                 var board = new List<string[]>
@@ -42,7 +42,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == "X");
             }
 
-            [Fact]
+            [Fact(DisplayName = "P2 wins with all markers in first column")]
             public void P2Wins_AllMarkersInFirstColumn()
             {
                 var board = new List<string[]>
@@ -74,7 +74,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == "0");
             }
 
-            [Fact(Skip = "Trop tot")]
+            [Fact(DisplayName = "P1 wins with all markers in third column", Skip = "Trop tot")]
             public void P1Wins_AllMarkersInThirdColumn()
             {
                 var board = new List<string[]>
@@ -91,7 +91,7 @@ namespace TicTacToeKata.Tests
             }
         }
 
-        [Fact]
+        [Fact(DisplayName = "Thrown exception if same player play twice")]
         public void ThrowException_If_Same_Player_Play_Twice()
         {
             Game game = new Game();
@@ -100,7 +100,7 @@ namespace TicTacToeKata.Tests
             Assert.Throws<InvalidOperationException>(() => game.Play("X", 1, 0));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Throw exception if marker already placed")]
         public void ThrowException_If_Marker_Already_Placed()
         {
             Game game = new Game();
