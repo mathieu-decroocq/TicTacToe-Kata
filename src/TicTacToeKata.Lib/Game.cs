@@ -7,17 +7,22 @@ namespace TicTacToeKata.Lib
     public class Game
     {
         private string previousMarker;
-      //  private string[,] board = new string[3,3];
         private List<string[]> board = new List<string[]>(3);
 
 
         public Game()
         {
+            board = new List<string[]>
+            {
+                new [] {"", "", ""},
+                new [] {"", "", ""},
+                new [] {"", "", ""}
+            };
         }
 
         public Game(List<string[]> board)
         {
-            this.board= board;
+            this.board = board;
         }
 
         public void Play(string marker, int x, int y)
@@ -27,18 +32,12 @@ namespace TicTacToeKata.Lib
                 throw new InvalidOperationException("Same_Player_Play_Twice");
             }
 
-            //if (board[x, y] != null)
-            //{
-            //    throw new InvalidOperationException("Marker_Already_Placed");
-            //}
-
-            if (board[x][y] != null)
+            if (board[x][y] != string.Empty)
             {
                 throw new InvalidOperationException("Marker_Already_Placed");
             }
 
             previousMarker = marker;
-            //board[x, y] = marker;
             board[x][y] = marker;
         }
 
