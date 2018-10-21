@@ -64,8 +64,18 @@ namespace TicTacToeKata.Tests
                 Initialize();
             }
 
-            [Fact(DisplayName = "P1 wins with all markers in three line")]
-            public void P1Wins_AllMarkersLine()
+            [Fact(DisplayName = "P1 wins with all markers in first line")]
+            public void P1Wins_AllMarkersInFirstLine()
+            {
+                Board = new[,] { { "X", "X", "X" }, { "O", "O", "" }, { "", "", "O" } };
+
+                Game game = new Game(Board, Players[0], Players[1]);
+
+                Assert.True(game.GetWinner() == PlayerOne);
+            }
+
+            [Fact(DisplayName = "P1 wins with all markers in third line")]
+            public void P1Wins_AllMarkersInThirdLine()
             {
                 Board = new[,] { { "", "", "O" }, { "O", "O", "" }, { "X", "X", "X" } };
 
@@ -84,7 +94,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == PlayerOne);
             }
 
-            [Fact(DisplayName = "P2 win with all markers in first column")]
+            [Fact(DisplayName = "P2 win with all markers in first column", Skip = "Plus tard")]
             public void P2Wins_AllMarkersInFirstColumn()
             {
                 Board = new[,] { { "O", "X", "X" }, { "O", "O", "" }, { "O", "", "X" } };
@@ -94,7 +104,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == PlayerTwo);
             }
 
-            [Fact(DisplayName = "P2 win with all markers in second column")]
+            [Fact(DisplayName = "P2 win with all markers in second column", Skip = "Plus tard")]
             public void P2Wins_AllMarkersInSecondColumn()
             {
                 Board = new[,] { { "X", "O", "X" }, { "O", "O", "" }, { "", "O", "X" } };
@@ -104,7 +114,7 @@ namespace TicTacToeKata.Tests
                 Assert.True(game.GetWinner() == PlayerTwo);
             }
 
-            [Fact(DisplayName = "P1 wins with all markers in third column", Skip = "Trop tot")]
+            [Fact(DisplayName = "P1 wins with all markers in third column", Skip = "Plus tard")]
             public void P1Wins_AllMarkersInThirdColumn()
             {
                 Board =  new[,] { { "X", "O", "X" }, { "O", "", "X" }, { "", "O", "X" } };

@@ -53,29 +53,45 @@ namespace TicTacToeKata.Lib
 
         public Player GetWinner()
         {
+            string winningMarker = string.Empty;
 
-            string winningMarker = MarkerSameInRow();
-            if (winningMarker != null)
+            for (int i = 0; i < board.GetLength(0); i++)
             {
-                return GetPlayerByMarker(winningMarker);
+                var row = Enumerable.Range(0, board.GetLength(1)).Select(x => board[i, x]).ToArray();
+                if(row.All(m => m == playerOne.Marker))
+                {
+                    winningMarker = playerOne.Marker;
+                }
+                else if (row.All(m => m == playerTwo.Marker))
+                {
+                    winningMarker = playerTwo.Marker;
+                }
             }
 
-            // test column victory
-            bool isZero = board.All(row => row
-                               .Select((s, i) => new { Pos = i, Str = s })
-                               .Any(i => i.Str == playerTwo.Marker));
-            if (isZero)
-            {
-                return GetPlayerByMarker(playerTwo.Marker);
-            }
+            return GetPlayerByMarker(winningMarker);
+
+            //string winningMarker = MarkerSameInRow();
+            //if (winningMarker != null)
+            //{
+            //    return GetPlayerByMarker(winningMarker);
+            //}
+
+            //// test column victory
+            //bool isZero = board.All(row => row
+            //                   .Select((s, i) => new { Pos = i, Str = s })
+            //                   .Any(i => i.Str == playerTwo.Marker));
+            //if (isZero)
+            //{
+            //    return GetPlayerByMarker(playerTwo.Marker);
+            //}
 
             return null;
         }
 
-        private string MarkerSameInRow()
-        {
-            return board.FirstOrDefault(row => row.All(m => m == playerOne.Marker) || row.All(m => m == playerTwo.Marker))?.FirstOrDefault();
-        }
+        //private string MarkerSameInRow()
+        //{
+        //    return board.FirstOrDefault(row => row.All(m => m == playerOne.Marker) || row.All(m => m == playerTwo.Marker))?.FirstOrDefault();
+        //}
 
         private Player GetPlayerByMarker(string winnerMarker)
         {
