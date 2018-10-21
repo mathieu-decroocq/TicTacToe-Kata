@@ -103,8 +103,8 @@ namespace TicTacToeKata.Lib
                 List<string> markers = new List<string>();
                 for (int i = 0; i < board.GetLength(1); i++)
                 {
-                    int previousColumnIndex = board.GetLength(0) - i - 1;
-                    markers.Add(board[i, previousColumnIndex]);
+                    int reverseColumnIndex = board.GetLength(0) - i - 1;
+                    markers.Add(board[i, reverseColumnIndex]);
                 }
 
                 return markers.ToArray();
