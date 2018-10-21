@@ -9,7 +9,7 @@ namespace TicTacToeKata.Tests
     public class TicTacToeTests
     {
         public List<Player> Players;
-        public List<string[]> Board;
+        public string[,] Board;
         internal void Initialize()
         {
             Players = new List<Player>
@@ -19,14 +19,26 @@ namespace TicTacToeKata.Tests
             };
         }
 
-        public Player GetPlayerOne()
+        internal Player PlayerOne
         {
-            return Players.Single(p => p.Id == 1);
+            get
+            {
+                return Players.Single(p => p.Id == 1);
+            }
         }
 
-        public Player GetPlayerTwo()
+
+        internal Player PlayerTwo
         {
-            return Players.Single(p => p.Id == 2);
+            get
+            {
+                return Players.Single(p => p.Id == 2);
+            }
+        }
+   
+        private Game GetGame()
+        {
+            return new Game(Board, PlayerOne, PlayerTwo);
         }
 
         public class GameTests : TicTacToeTests
@@ -55,95 +67,72 @@ namespace TicTacToeKata.Tests
             [Fact(DisplayName = "P1 wins with all markers in three line")]
             public void P1Wins_AllMarkersLine()
             {
-                Board = new List<string[]>
-                {
-                    new [] {"", "", "0"},
-                    new [] {"0", "0", ""},
-                    new [] {"X", "X", "X"}
-                };
+                Board = new[,] { { "", "", "O" }, { "O", "O", "" }, { "X", "X", "X" } };
 
                 Game game = new Game(Board, Players[0], Players[1]);
 
-                Assert.True(game.GetWinner() == GetPlayerOne());
+                Assert.True(game.GetWinner() == PlayerOne);
             }
 
             [Fact(DisplayName = "P1 win with all markers in diagonale", Skip = "Plus tard")]
             public void P1Wins_AllMarkersDiagonale()
             {
-                var board = new List<string[]>
-                {
-                    new [] {"X", "", "" },
-                    new [] {"0", "X", "0"},
-                    new [] {"", "", "X"}
-                };
+                Board = new[,] { { "X", "", "" }, { "O", "X", "O" }, { "", "", "X" } };
 
-                Game game = new Game(board, Players[0], Players[1]);
+                Game game = new Game(Board, Players[0], Players[1]);
 
-                Assert.True(game.GetWinner() == GetPlayerOne());
+                Assert.True(game.GetWinner() == PlayerOne);
             }
 
             [Fact(DisplayName = "P2 win with all markers in first column")]
             public void P2Wins_AllMarkersInFirstColumn()
             {
-                var board = new List<string[]>
-                {
-                    new [] {"0", "X", "X"},
-                    new [] {"0", "0", ""},
-                    new [] {"0", "", "X"}
-                };
+                Board = new[,] { { "O", "X", "X" }, { "O", "O", "" }, { "O", "", "X" } };
 
-                Game game = new Game(board, Players[0], Players[1]);
+                Game game = new Game(Board, Players[0], Players[1]);
 
-                Assert.True(game.GetWinner() == GetPlayerTwo());
+                Assert.True(game.GetWinner() == PlayerTwo);
             }
 
             [Fact(DisplayName = "P2 win with all markers in second column")]
             public void P2Wins_AllMarkersInSecondColumn()
             {
-                var board = new List<string[]>
-                {
-                    new [] {"X", "0", "X"},
-                    new [] {"0", "0", ""},
-                    new [] {"", "0", "X"}
-                };
+                Board = new[,] { { "X", "O", "X" }, { "O", "O", "" }, { "", "O", "X" } };
 
-                Game game = new Game(board, Players[0], Players[1]);
+                Game game = new Game(Board, Players[0], Players[1]);
 
-                Assert.True(game.GetWinner() == GetPlayerTwo());
+                Assert.True(game.GetWinner() == PlayerTwo);
             }
 
             [Fact(DisplayName = "P1 wins with all markers in third column", Skip = "Trop tot")]
             public void P1Wins_AllMarkersInThirdColumn()
             {
-                var board = new List<string[]>
-                {
-                    new [] {"X", "0", "X"},
-                    new [] {"0", "", "X"},
-                    new [] {"", "0", "X"}
-                };
+                Board =  new[,] { { "X", "O", "X" }, { "O", "", "X" }, { "", "O", "X" } };
+    
+                Game game = GetGame();
 
-                Game game = new Game(board, Players[0], Players[1]);
-
-                Assert.True(game.GetWinner() == GetPlayerOne());
+                Assert.True(game.GetWinner() == PlayerOne);
             }
+
+
 
             [Fact(DisplayName = "Thrown exception if same player play twice")]
             public void ThrowException_If_Same_Player_Play_Twice()
             {
                 Game game = new Game();
-                game.Play(GetPlayerOne(), 0, 0);
+                game.Play(PlayerOne, 0, 0);
 
-                Assert.Throws<InvalidOperationException>(() => game.Play(GetPlayerOne(), 1, 0));
+                Assert.Throws<InvalidOperationException>(() => game.Play(PlayerOne, 1, 0));
             }
 
             [Fact(DisplayName = "Throw exception if marker already placed")]
             public void ThrowException_If_Marker_Already_Placed()
             {
                 Game game = new Game();
-                game.Play(GetPlayerOne(), 0, 0);
-                game.Play(GetPlayerTwo(), 0, 1);
+                game.Play(PlayerOne, 0, 0);
+                game.Play(PlayerTwo, 0, 1);
 
-                Assert.Throws<InvalidOperationException>(() => game.Play(GetPlayerOne(), 0, 0));
+                Assert.Throws<InvalidOperationException>(() => game.Play(PlayerOne, 0, 0));
             }
         }
     }
