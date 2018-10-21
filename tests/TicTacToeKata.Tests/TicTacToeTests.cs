@@ -27,7 +27,6 @@ namespace TicTacToeKata.Tests
             }
         }
 
-
         internal Player PlayerTwo
         {
             get
@@ -35,12 +34,10 @@ namespace TicTacToeKata.Tests
                 return Players.Single(p => p.Id == 2);
             }
         }
-   
-        private Game GetGame()
-        {
-            return new Game(Board, PlayerOne, PlayerTwo);
-        }
 
+   
+
+        // todo faire un test par cas de victoire avec jeu pré-initialisé
         public class GameTests : TicTacToeTests
         {
             public GameTests()
@@ -53,15 +50,7 @@ namespace TicTacToeKata.Tests
             {
                 Game game = new Game();
 
-                Assert.Null(game.GetWinner()); 
-            }
-        }
-
-        public class AcceptanceTests : TicTacToeTests
-        {
-            public AcceptanceTests()
-            {
-                Initialize();
+                Assert.Null(game.GetWinner());
             }
 
             [Fact(DisplayName = "P1 wins with all markers in first line")]
@@ -69,7 +58,7 @@ namespace TicTacToeKata.Tests
             {
                 Board = new[,] { { "X", "X", "X" }, { "O", "O", "" }, { "", "", "O" } };
 
-                Game game = new Game(Board, Players[0], Players[1]);
+                Game game = GetGame();
 
                 Assert.True(game.GetWinner() == PlayerOne);
             }
@@ -79,7 +68,7 @@ namespace TicTacToeKata.Tests
             {
                 Board = new[,] { { "X", "", "X" }, { "O", "O", "O" }, { "", "", "X" } };
 
-                Game game = new Game(Board, Players[0], Players[1]);
+                Game game = GetGame();
 
                 Assert.True(game.GetWinner() == PlayerTwo);
             }
@@ -89,17 +78,7 @@ namespace TicTacToeKata.Tests
             {
                 Board = new[,] { { "", "", "O" }, { "O", "O", "" }, { "X", "X", "X" } };
 
-                Game game = new Game(Board, Players[0], Players[1]);
-
-                Assert.True(game.GetWinner() == PlayerOne);
-            }
-
-            [Fact(DisplayName = "P1 win with all markers in diagonale", Skip = "Plus tard")]
-            public void P1Wins_AllMarkersDiagonale()
-            {
-                Board = new[,] { { "X", "", "" }, { "O", "X", "O" }, { "", "", "X" } };
-
-                Game game = new Game(Board, Players[0], Players[1]);
+                Game game = GetGame();
 
                 Assert.True(game.GetWinner() == PlayerOne);
             }
@@ -119,7 +98,7 @@ namespace TicTacToeKata.Tests
             {
                 Board = new[,] { { "X", "O", "X" }, { "O", "O", "" }, { "", "O", "X" } };
 
-                Game game = new Game(Board, Players[0], Players[1]);
+                Game game = GetGame();
 
                 Assert.True(game.GetWinner() == PlayerTwo);
             }
@@ -127,11 +106,73 @@ namespace TicTacToeKata.Tests
             [Fact(DisplayName = "P1 wins with all markers in third column")]
             public void P1Wins_AllMarkersInThirdColumn()
             {
-                Board =  new[,] { { "X", "O", "X" }, { "O", "", "X" }, { "", "O", "X" } };
-    
+                Board = new[,] { { "X", "O", "X" }, { "O", "", "X" }, { "", "O", "X" } };
+
                 Game game = GetGame();
 
                 Assert.True(game.GetWinner() == PlayerOne);
+            }
+
+            [Fact]
+            public void DiagonalAllX_Winner()
+            {
+                Board = new[,]
+                {
+                    { "X", "", "" },
+                    { "", "X", "" },
+                    { "", "", "X" }
+                };
+                Game game = GetGame();
+                Assert.Equal(PlayerOne.Id, game.GetWinner()?.Id);
+            }
+
+            [Fact]
+            public void DiagonalAllO_Winner()
+            {
+                Board = new[,] 
+                {
+                    { "", "", "O" },
+                    { "", "O", "" },
+                    { "O", "", "" }
+
+                };
+                Game game = GetGame();
+                Assert.Equal(PlayerTwo.Id, game.GetWinner()?.Id);
+            }
+
+            private Game GetGame()
+            {
+                return new Game(Board, PlayerOne, PlayerTwo);
+            }
+        }
+
+        // TODO faire 6 tests par joueur et cas de victoire en utilisant la méthode game.Play() avec alternace P1 / P2
+        // TODO faire des tests pour toutes les regles du fichier spec/rules
+        public class AcceptanceTests : TicTacToeTests
+        {
+            public AcceptanceTests()
+            {
+                Initialize();
+            }
+
+            [Fact(DisplayName = "P1 win with all markers in diagonale")]
+            public void P1Wins_AllMarkersDiagonale()
+            {
+                Game game = new Game();
+                game.Play(PlayerOne, 1, 1);
+                game.Play(PlayerTwo, 2, 1);
+
+                game.Play(PlayerOne, 1, 2);
+                game.Play(PlayerTwo, 0, 2);
+
+                game.Play(PlayerOne, 1, 0);
+                game.Play(PlayerTwo, 2, 2);
+
+                game.Play(PlayerOne, 2, 0);
+
+                Player winner = game.GetWinner();
+
+                Assert.Equal(PlayerOne.Id, winner?.Id);
             }
 
 
@@ -154,6 +195,9 @@ namespace TicTacToeKata.Tests
 
                 Assert.Throws<InvalidOperationException>(() => game.Play(PlayerOne, 0, 0));
             }
+
+
+
         }
     }
 }

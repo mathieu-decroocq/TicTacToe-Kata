@@ -61,6 +61,31 @@ namespace TicTacToeKata.Lib
                 winningMarker = GetIdenticalMarkerForAllColumns();
             }
 
+            if (winningMarker == null)
+            {
+                //diagonal case
+                //case diagonal left to right
+                List<string> caseOne = new List<string>();
+                for (int i = 0; i < board.GetLength(1); i++)
+                {
+                    caseOne.Add(board[i,i]);
+                }
+
+                winningMarker = CheckIfSameMarkerAndReturnIts(caseOne.ToArray());
+
+                if (winningMarker == null)
+                {
+                    //case diagonal right to left
+                    List<string> caseTwo = new List<string>();
+                    for (int i = 0; i < board.GetLength(1); i++)
+                    {
+                        caseTwo.Add(board[i, board.GetLength(0) - i - 1]);
+                    }
+
+                    winningMarker = CheckIfSameMarkerAndReturnIts(caseTwo.ToArray());
+                }
+            }
+
             return GetPlayerByMarker(winningMarker);
         }
 

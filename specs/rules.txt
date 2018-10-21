@@ -13,13 +13,16 @@ Rules :
 Fr :
 Regles :
 
-    - une partie est terminée lorsque tous les champs d'une rangée sont occupés par un joueur
-    - les joueurs jouent à tour de rôle jusqu'à la fin du match
-    - une partie est terminée lorsque tous les champs d'une diagonale sont occupés par un joueur
-    - une partie est terminée lorsque tous les champs sont occupés
     - il y a deux joueurs dans le jeu (X et O)
-    - un jeu a neuf champs dans une grille 3x3
-    - une partie est terminée lorsque tous les champs d'une colonne sont occupés par un joueur
+	- un jeu a neuf champs dans une grille 3x3
+
+	- les joueurs jouent à tour de rôle jusqu'à la fin du match
+
+    - une partie est terminée lorsque tous les champs d'une rangée sont occupés par un joueur
+	- une partie est terminée lorsque tous les champs d'une colonne sont occupés par un joueur
+	- une partie est terminée lorsque tous les champs d'une diagonale sont occupés par un joueur
+    - une partie est terminée lorsque tous les champs sont occupés
+
     - un joueur peut prendre un champ s'il n'est pas déjà pris
 
 
